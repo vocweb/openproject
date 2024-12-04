@@ -1,0 +1,50 @@
+<%=
+  component_wrapper do
+    component_collection do |collection|
+      if show_banner?
+        collection.with_component(Primer::Alpha::Banner.new(scheme: banner_scheme,
+                                                            full: true,
+                                                            icon: :info,
+                                                            description: banner_description,
+                                                            mb: 3,
+                                                            classes: "rounded-top-2")) do |banner|
+          banner.with_action_button(tag: :a, href: banner_link, target: "_blank") { I18n.t("work_packages.datepicker_modal.show_relations") }
+          banner_title
+        end
+      end
+
+      collection.with_component(Primer::Alpha::Dialog::Body.new) do
+        flex_layout do |body|
+          body.with_row(mb: 3) do
+            flex_layout(align_items: :flex_end, justify_content: :space_between) do |first_row|
+              first_row.with_column do
+                render(Primer::Alpha::FormControl.new(label: I18n.t("work_packages.datepicker_modal.mode.title"))) do |component|
+                  component.with_input do
+                    render(Primer::Alpha::SegmentedControl.new("aria-label": I18n.t("work_packages.datepicker_modal.mode.title"))) do |control|
+                      control.with_item(tag: :a,
+                                        href: datepicker_dialog_content_work_package_path(mode: :manual),
+                                        data: { turbo_stream: true },
+                                        label: I18n.t("work_packages.datepicker_modal.mode.manual"),
+                                        title: I18n.t("work_packages.datepicker_modal.mode.manual"),
+                                        selected: @mode.to_s == MANUAL_MODE)
+                      control.with_item(tag: :a,
+                                        href: datepicker_dialog_content_work_package_path(mode: :automatic),
+                                        data: { turbo_stream: true },
+                                        label: I18n.t("work_packages.datepicker_modal.mode.automatic"),
+                                        title: I18n.t("work_packages.datepicker_modal.mode.automatic"),
+                                        selected: @mode.to_s == AUTOMATIC_MODE)
+                    end
+                  end
+                end
+              end
+
+              first_row.with_column(mb: 1) do
+                render(Primer::Alpha::CheckBox.new(name: "name", label: I18n.t("work_packages.datepicker_modal.ignore_non_working_days.title")))
+              end
+            end
+          end
+        end
+      end
+    end
+  end
+%>
