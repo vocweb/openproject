@@ -1,0 +1,13 @@
+# Schema: StorageFolderWriteModel
+---
+type: object
+required:
+  - name
+  - path
+properties:
+  name:
+    type: string
+    description: Folder name
+  parentId:
+    type: integer
+    description: Parent folder id

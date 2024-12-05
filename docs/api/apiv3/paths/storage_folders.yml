@@ -1,0 +1,28 @@
+# /api/v3/storages/{id}/folders
+---
+post:
+  summary: Creation of a new folder
+  operationId: storage_new_folder
+  tags:
+    - File links
+  description: Creates a new folder on the given path
+  parameters:
+    - name: id
+      description: Storage id
+      in: path
+      required: true
+      schema:
+        type: integer
+      example: 1337
+  requestBody:
+    content:
+      application/json:
+        schema:
+          $ref: '../components/schemas/storage_folder_write_model.yml'
+  responses:
+    '201':
+      description: Created
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/storage_file_model.yml'
